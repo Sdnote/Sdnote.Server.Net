@@ -25,6 +25,9 @@ namespace SdnoteServer
                 app.UseExceptionHandler();
             }
 
+            //状态码中间件
+            app.UseStatusCodePages();
+
             app.UseMvc();
             
         }
