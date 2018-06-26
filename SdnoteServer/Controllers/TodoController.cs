@@ -8,15 +8,21 @@ namespace SdnoteServer.Controllers
     public class TodoController:Controller
     {
         [HttpGet("all")]
-        public JsonResult GetTodo()
+        public IActionResult GetTodo()
         {
-            return new JsonResult(TodoService.Current.Todos);
+            return Ok(TodoService.Current.Todos);
         }
 
         [Route("{id}")]
-        public JsonResult GetTodo(int id)
+        public IActionResult GetTodo(int id)
         {
-            return new JsonResult(TodoService.Current.Todos.SingleOrDefault(x => x.Id == id));
+            var todo = TodoService.Current.Todos.SingleOrDefault(x => x.Id == id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(todo);
         }
     }
 }
