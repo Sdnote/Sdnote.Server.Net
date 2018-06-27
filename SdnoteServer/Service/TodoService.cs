@@ -18,13 +18,39 @@ namespace SdnoteServer.Service
                 {
                     Id = 1,
                     TdName = "Just Test!",
-                    TdTime = DateTime.Now
+                    TdTime = DateTime.Now,
+                    Subevent = new List<Subevent>
+                    {
+                        new Subevent
+                        {
+                            Id = 11,
+                            SbName = "Subevent for Just Test!"
+                        },
+                        new Subevent
+                        {
+                            Id = 12,
+                            SbName = "Subevent 2 for Just Test!"
+                        }
+                    }
                 },
                 new Todo
                 {
                     Id = 2,
                     TdName = "Just Test again!",
-                    TdTime = DateTime.Now.AddHours(1)
+                    TdTime = DateTime.Now.AddHours(1),
+                    Subevent = new List<Subevent>
+                    {
+                        new Subevent
+                        {
+                            Id = 11,
+                            SbName = "Subevent for Just Test again!"
+                        },
+                        new Subevent
+                        {
+                            Id = 12,
+                            SbName = "Subevent 2 for Just Test again!"
+                        }
+                    }
                 }
             };
         }
