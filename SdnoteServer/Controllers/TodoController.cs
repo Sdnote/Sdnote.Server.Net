@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SdnoteServer.Service;
 using System.Linq;
+using Microsoft.AspNetCore.JsonPatch;
 using SdnoteServer.Dto;
 
 namespace SdnoteServer.Controllers
@@ -55,6 +56,7 @@ namespace SdnoteServer.Controllers
             //return new JsonResult(todo);
         }
 
+        //全局更新 put，body 无此内容，put 后为 null
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] TodoModification todo)
         {
@@ -77,8 +79,43 @@ namespace SdnoteServer.Controllers
             model.TdName = todo.TdName;
             model.TdTime = todo.TdTime;
 
-            return Ok(model);
-            //return NoContent();
+            //return Ok(model);
+            return NoContent();
         }
+
+        //部分参数 patch 更新
+        //patch eg ： [ { "op":"replace", "path":"/tdName", "value":"patch it!@!!" } ]
+        [HttpPatch("{id}")]
+        public IActionResult Patch(int id, [FromBody] JsonPatchDocument<TodoModification> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                return BadRequest();
+            }
+            var model = TodoService.Current.Todos.SingleOrDefault(x => x.Id == id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+            var toPatch = new TodoModification
+            {
+                TdName = model.TdName,
+                TdTime = model.TdTime
+            };
+            patchDoc.ApplyTo(toPatch, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            model.TdName = toPatch.TdName;
+            model.TdTime = toPatch.TdTime;
+
+            return NoContent();
+        }
+
+
+
     }
 }
