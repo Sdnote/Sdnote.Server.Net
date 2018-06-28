@@ -126,7 +126,19 @@ namespace SdnoteServer.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            var model = TodoService.Current.Todos.SingleOrDefault(x => x.Id == id);
+            if (model == null)
+            {
+                return BadRequest();
+            }
 
+            TodoService.Current.Todos.Remove(model);
+
+            return NoContent();
+        }
 
     }
 }
