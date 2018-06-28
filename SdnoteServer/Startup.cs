@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace SdnoteServer
 {
@@ -17,7 +18,13 @@ namespace SdnoteServer
                 {
                     //添加XML 内容协商服务
                     options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
-                }); 
+                })
+                .AddJsonOptions(options =>
+                {
+                    //Set date configurations
+                    //options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
+                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

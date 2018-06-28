@@ -36,7 +36,7 @@ namespace SdnoteServer.Controllers
             }
 
             var maxId = TodoService.Current.Todos.Max(x => x.Id);
-            var newTodo = new Todo()
+            var newTodo = new Todo
             {
                 Id = ++maxId, //ID 顺位加一
                 TdName = todo.TdName,
@@ -45,7 +45,8 @@ namespace SdnoteServer.Controllers
 
             TodoService.Current.Todos.Add(newTodo);
 
-            return CreatedAtRoute("GetTodo",new {id = newTodo.Id, newTodo });
+            return CreatedAtRoute("GetTodo",new {id = newTodo.Id}, newTodo);
+            //return new JsonResult(todo);
         }
     }
 }
