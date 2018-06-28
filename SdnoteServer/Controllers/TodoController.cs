@@ -54,5 +54,31 @@ namespace SdnoteServer.Controllers
             return CreatedAtRoute("GetTodo",new {id = newTodo.Id}, newTodo);
             //return new JsonResult(todo);
         }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] TodoModification todo)
+        {
+            if (todo == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var model = TodoService.Current.Todos.SingleOrDefault(x => x.Id == id);
+            if (model == null)
+            {
+                return NotFound();
+            }
+
+            model.TdName = todo.TdName;
+            model.TdTime = todo.TdTime;
+
+            return Ok(model);
+            //return NoContent();
+        }
     }
 }
