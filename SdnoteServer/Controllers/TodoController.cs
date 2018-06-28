@@ -97,13 +97,24 @@ namespace SdnoteServer.Controllers
             {
                 return NotFound();
             }
+
+            //创建一个 TodoModification
             var toPatch = new TodoModification
             {
                 TdName = model.TdName,
                 TdTime = model.TdTime
             };
+
+            //将 patchDoc 添加
             patchDoc.ApplyTo(toPatch, ModelState);
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //再次手动验证（防止非法修改）eg : [ { "op":"remove", "path":"/tdName" } ]
+            TryValidateModel(toPatch);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
