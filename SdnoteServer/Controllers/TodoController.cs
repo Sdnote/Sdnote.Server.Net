@@ -35,6 +35,12 @@ namespace SdnoteServer.Controllers
                 return BadRequest();
             }
 
+            //DataAnnotations 验证不通过，ModelState.IsValid 为 False
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var maxId = TodoService.Current.Todos.Max(x => x.Id);
             var newTodo = new Todo
             {
