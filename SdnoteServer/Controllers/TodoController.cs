@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using SdnoteServer.Service;
 using System.Linq;
 using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.Extensions.Logging;
 using SdnoteServer.Dto;
 
 namespace SdnoteServer.Controllers
@@ -9,6 +11,14 @@ namespace SdnoteServer.Controllers
     [Route("api/[controller]")]
     public class TodoController:Controller
     {
+        //注入logger
+        private ILogger<TodoController> _logger;
+
+        public TodoController(ILogger<TodoController> logger)
+        {
+            _logger = logger;
+        }
+
         [HttpGet("all")]
         public IActionResult GetTodo()
         {
@@ -18,13 +28,22 @@ namespace SdnoteServer.Controllers
         [Route("{id}", Name ="GetTodo")]
         public IActionResult GetTodo(int id)
         {
-            var todo = TodoService.Current.Todos.SingleOrDefault(x => x.Id == id);
-            if (todo == null)
+            try
             {
-                return NotFound();
+                //throw new  Exception("测试用异常");
+                var todo = TodoService.Current.Todos.SingleOrDefault(x => x.Id == id);
+                if (todo == null)
+                {
+                    _logger.LogInformation($"Id为{id}的事件没有找到");
+                    return NotFound();
+                }
+                return Ok(todo);
             }
-
-            return Ok(todo);
+            catch (Exception ex)
+            {
+                _logger.LogCritical($"查找Id为{id}的事件事出现了错误！！",ex);
+                return StatusCode(500, "处理请求异常！");
+            }   
         }
 
         //POST 添加todo

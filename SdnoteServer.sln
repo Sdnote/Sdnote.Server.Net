@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SdnoteServer", "SdnoteServer\SdnoteServer.csproj", "{851BF565-ACD7-4B51-89B1-B41407C5A915}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SdnoteServer", "SdnoteServer\SdnoteServer.csproj", "{851BF565-ACD7-4B51-89B1-B41407C5A915}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
