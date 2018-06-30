@@ -30,7 +30,11 @@ namespace SdnoteServer
                 });
 
             //将邮件服务注册到Container
-            services.AddTransient<LocalMailService>();
+#if DEBUG
+            services.AddTransient<IMaillServer, LocalMailServer>();
+#else
+            services.AddTransient<IMaillServer, CloudMailServer>();
+#endif
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
