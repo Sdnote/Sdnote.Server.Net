@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using NLog.Extensions.Logging;
+using SdnoteServer.Service;
 
 namespace SdnoteServer
 {
@@ -27,6 +28,9 @@ namespace SdnoteServer
                     //options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Utc;
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
                 });
+
+            //将邮件服务注册到Container
+            services.AddTransient<LocalMailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

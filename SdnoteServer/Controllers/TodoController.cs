@@ -12,11 +12,13 @@ namespace SdnoteServer.Controllers
     public class TodoController:Controller
     {
         //注入logger
-        private ILogger<TodoController> _logger;
+        private readonly ILogger<TodoController> _logger;
+        private readonly LocalMailService _localMailService;
 
-        public TodoController(ILogger<TodoController> logger)
+        public TodoController(ILogger<TodoController> logger, LocalMailService localMailService)
         {
             _logger = logger;
+            _localMailService = localMailService;
         }
 
         [HttpGet("all")]
@@ -155,6 +157,7 @@ namespace SdnoteServer.Controllers
             }
 
             TodoService.Current.Todos.Remove(model);
+            _localMailService.Send("Todo Deleted",$"Id 为{id}的事件被删除了！");
 
             return NoContent();
         }
