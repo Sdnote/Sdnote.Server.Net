@@ -13,9 +13,9 @@ namespace SdnoteServer.Controllers
     {
         //注入logger
         private readonly ILogger<TodoController> _logger;
-        private readonly IMaillServer _mailService;
+        private readonly IMailServer _mailService;
 
-        public TodoController(ILogger<TodoController> logger, IMaillServer mailService)
+        public TodoController(ILogger<TodoController> logger, IMailServer mailService)
         {
             _logger = logger;
             _mailService = mailService;

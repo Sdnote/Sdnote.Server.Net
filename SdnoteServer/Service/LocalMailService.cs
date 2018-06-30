@@ -7,16 +7,16 @@ using Microsoft.Extensions.Logging;
 
 namespace SdnoteServer.Service
 {
-    public interface IMaillServer
+    public interface IMailServer
     {
         void Send(string subject, string msg);
         
     }
 
-    public class LocalMailServer : IMaillServer
+    public class LocalMailServer : IMailServer
     {
-        private string _mailTo = "muzi@derwer.com";
-        private string _mailFrom = "noreply@leepush.com";
+        private readonly string _mailTo = Startup.Configuration["mailSettings:mailToAddress"];
+        private readonly string _mailFrom = Startup.Configuration["mailSettings:mailFromAddress"];
         private readonly ILogger<LocalMailServer> _logger;
 
         public LocalMailServer(ILogger<LocalMailServer> logger)
@@ -32,11 +32,11 @@ namespace SdnoteServer.Service
         }
     }
 
-    public class CloudMailServer : IMaillServer
+    public class CloudMailServer : IMailServer
     {
-        private string _mailTo = "muzi@niconiconi.in";
-        private string _mailFrom = "noreply@leepush.com";
-        readonly ILogger<CloudMailServer> _logger;
+        private readonly string _mailTo = Startup.Configuration["mailSettings:mailToAddress"];
+        private readonly string _mailFrom = Startup.Configuration["mailSettings:mailFromAddress"];
+        private readonly ILogger<CloudMailServer> _logger;
 
         public CloudMailServer(ILogger<CloudMailServer> logger)
         {
